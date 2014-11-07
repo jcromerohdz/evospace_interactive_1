@@ -1,0 +1,18 @@
+.grid-item {;
+width: 350px;
+}
+
+#selectable li {
+    height: 30px;
+}
+
+
+.thumbnail{
+	height: 550px;
+	width: 310px;
+	background-color: #414244;
+}
+
+body{
+	background-image: url("/static/img/Texture_1.jpg");
+}
