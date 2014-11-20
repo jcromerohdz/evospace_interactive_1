@@ -10,7 +10,7 @@ import ast
 import itertools
 from py2neo import node
 
-import redis
+
 
 
 # Django
@@ -193,8 +193,9 @@ def home(request):
 
 
         #print "Hola, mundo!!"
-        r = redis.StrictRedis(host='localhost', port=6379, db=0)
-
+        #r = redis.StrictRedis(host='localhost', port=6379, db=0)
+        from lib.store import redis
+        r = redis
         experience = 0
 
         #Condultar nodo usuario
@@ -530,7 +531,9 @@ def get_collection(request, username, collection=None):
         print username, owner
 
         #r = redis.Redis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.REDIS_DB)
-        r = redis.StrictRedis(host='localhost', port=6379, db=0)
+        #r = redis.StrictRedis(host='localhost', port=6379, db=0)
+        from lib.store import redis
+        r = redis
         if collection:
             inds_psql = Collection.objects.get(user_collection__user__username=username,
                                                id=collection).individuals.all()
@@ -639,8 +642,9 @@ def home2(request):
     return render_to_response('base.html', context_instance=RequestContext(request))
 
 def current_experience(request):
-    r = redis.StrictRedis(host='localhost', port=6379, db=0)
-
+    #r = redis.StrictRedis(host='localhost', port=6379, db=0)
+    from lib.store import redis
+    r = redis
     experience = 0
 
     if request.user.is_authenticated():

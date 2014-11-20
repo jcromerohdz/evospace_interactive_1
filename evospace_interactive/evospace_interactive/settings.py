@@ -99,8 +99,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME': 'evospaceInteractive_DB',
-        'USER': 'postgres',
+        'NAME': 'evoSpaceInteractive',
+        'USER': 'Chris',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '5432',

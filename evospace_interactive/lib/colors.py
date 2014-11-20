@@ -9,11 +9,12 @@ from userGraph import Nodo
 import random
 import numpy
 import sys
-
+from store import redis
+r = redis
 
 
 def calculate_user_experience(fitness):
-    r = redis.StrictRedis(host='localhost', port=6379, db=0)
+    #r = redis.StrictRedis(host='localhost', port=6379, db=0)
     #user_list = r.lrange("user:"+user_id, 0, -1)
  
     exp_list = []
@@ -44,17 +45,16 @@ def fuzzy_fitness(fitness):
             rate = int(fitness[u])
             print str(rate) +" , " + str(exp)
             
-        print fisuser(rate,exp)
-        rate_by_fuzzy.append(rate * fisuser(rate,exp))
-        fuzzy.append(fisuser(rate,exp))
+        #print fisuser(rate,exp)
+            rate_by_fuzzy.append(rate * fisuser(rate,exp))
+            fuzzy.append(fisuser(rate,exp))
 
     
-    print rate_by_fuzzy
-    print sum(rate_by_fuzzy)
-    print fuzzy
-    print sum(fuzzy)        
+    #print rate_by_fuzzy
+    #print sum(rate_by_fuzzy)
+    #print fuzzy
+    #print sum(fuzzy)        
     fuzzy_ponderation = sum(rate_by_fuzzy)/sum(fuzzy)
-
     return fuzzy_ponderation     
 
 
@@ -70,7 +70,7 @@ def calc_fitness(pop):
     for ind in pop["sample"]:
         if ind['views'] > 0:
             #ind['currentFitness'] = ( int(current_fitness(ind['fitness'])) + 1 ) / (float(ind['views']) + 1)
-            ind['currentFitness'] = ( fuzzy_fitness(ind['fitness']))
+            ind['currentFitness'] = fuzzy_fitness(ind['fitness'])
             print "::::::::::::: Our Fitness by me :::::::::::::::"
             print ind['currentFitness']
         else:
@@ -109,7 +109,7 @@ def init_pop_crh(populationSize, popName="pop"):
         print individual
         server.put_individual(**individual)
 
-    r = redis.StrictRedis(host='localhost', port=6379, db=0)
+    #r = redis.StrictRedis(host='localhost', port=6379, db=0)
     redis_data = [eval(r.get(ind)) for ind in r.keys("pop:individual:*")]
     for ind in redis_data:
         #print len(redis_data)
@@ -311,7 +311,7 @@ def reprieve(individual):
 #     put_sample(sample["sample_id"], offspring )
 
 def evolve_Tournament(sample_size=6, mutation_rate=0.5):
-    print "Evolve Tournament!!!!!!!"
+
     #get two samples from evospace
     sample_papa = get_sample(sample_size)
     print sample_papa
@@ -335,7 +335,6 @@ def evolve_Tournament(sample_size=6, mutation_rate=0.5):
         return
 
     #Add currentFitness to individuals key para nuevo fitness
-    print "PAPA y MAMA"
     sample_papa = calc_fitness(sample_papa)
     sample_mama = calc_fitness(sample_mama)
 
@@ -394,7 +393,7 @@ if __name__ == "__main__":
 #     #init_pop(32)
 #     evolve()
 
-    init_pop(100)
+    init_pop_crh(50)
 
 
 #mutacion_ran(papa)

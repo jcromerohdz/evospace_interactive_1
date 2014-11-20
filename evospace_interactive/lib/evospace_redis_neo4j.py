@@ -5,21 +5,23 @@ LOGGING = False
 LOG_INTERVAL = 10
 
 import ConfigParser
-import redis, json
+#import redis, 
+import json
 from py2neo import rel, node
 
 from userGraph import Nodo, Graph_Individual, Relations
 
 # Por que 5 iteraciones
-co = ConfigParser.ConfigParser()
-co.read(["config/evospace.cfg", "../config/evospace.cfg"])
+# co = ConfigParser.ConfigParser()
+# co.read(["config/evospace.cfg", "../config/evospace.cfg"])
 
-HOST = co.get('redis', 'HOST')
-PORT = co.getint('redis', 'PORT')
-DB = co.getint('redis', 'DB')
+# HOST = co.get('redis', 'HOST')
+# PORT = co.getint('redis', 'PORT')
+# DB = co.getint('redis', 'DB')
 
-r = redis.Redis(host=HOST, port=PORT, db=DB)
-
+# r = redis.Redis(host=HOST, port=PORT, db=DB)
+from store import redis
+r=redis
 
 class Individual:
     def __init__(self, **kwargs):
@@ -153,8 +155,8 @@ class Population:
         ind.put(self.name)
 
     def put_sample(self, sample, **kwargs):
-        #print "77777777777777"
-        #print type(sample)
+        print "77777777777777"
+        print type(sample)
         if not isinstance(sample, dict):
             sample = json.loads(sample)
 
@@ -177,8 +179,8 @@ class Population:
                                                 chromosome=member["chromosome"],
                                                 views=member["views"])
 
-                #print "*********MEMBER**********"
-                #print member
+                print "*********MEMBER**********"
+                print member
 
                 # Verificar si el nodo individual existe
                 id = member['id']
@@ -250,5 +252,3 @@ class Population:
 
 if __name__ == "__main__":
     pass
-
-

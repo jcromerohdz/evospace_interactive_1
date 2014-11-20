@@ -8,13 +8,14 @@ from py2neo import packages
 #import redis
 # conectarse a graphene service
 import os
-#from py2neo.packages.urimagic import URI
-#GRAPHENEDB_URL = "http://app29381869:UsGfVXqOMl2AQAe2gW2Z@app29381869.sb02.stations.graphenedb.com:24789"
-#graphenedb_url = os.environ.get("GRAPHENEDB_URL", "http://localhost:7474/")
-#graph_db=service_root.graph_db
+from py2neo.packages.urimagic import URI
+GRAPHENEDB_URL = "http://app30918739:FFocCRm7AjWcJR9criR0@app30918739.sb02.stations.graphenedb.com:24789"
+graphenedb_url = os.environ.get("GRAPHENEDB_URL", "http://localhost:7474/")
+service_root = neo4j.ServiceRoot(URI(graphenedb_url).resolve("/"))
+graph_db=service_root.graph_db
 
 #local  ne4j
-graph_db = neo4j.GraphDatabaseService()
+#graph_db = neo4j.GraphDatabaseService()
 
 
 
